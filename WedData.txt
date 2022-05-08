@@ -1,0 +1,84 @@
+DROP DATABASE IF EXISTS WedData;
+CREATE DATABASE WedData DEFAULT CHARSET=GBK;
+USE WedData;
+CREATE TABLE UserInfo
+(
+UserName nvarchar(50) Primary key,
+Password nvarchar(50) not null,
+QQ nvarchar(12),
+Email nvarchar(50),
+Type nchar(10) not null,
+UserImg nvarchar(250)
+) ;
+CREATE TABLE Activity
+(
+ActivityID int Primary key auto_increment,
+ActivityName nvarchar(125) not null,
+EndTime datetime not null,
+ActivityPicture nvarchar(250) not null,
+ActivityIntroduction nvarchar(8000),
+Summary nvarchar(250),
+ActivityVerify nchar(10) not null DEFAULT '待审核',
+ActivityStatus nchar(10),
+UserName nvarchar(50) not null,
+Recommend nchar(2),
+RecommendTime datetime,
+FOREIGN KEY(USERNAME) REFERENCES UserInfo(USERNAME)
+);
+CREATE TABLE WorkInfo
+(
+WorkId int Primary key auto_increment,
+WorkName nvarchar(50) not null,
+WorkPicture nvarchar(250) not null,
+UploadTime datetime not null,
+WorkIntroduction nvarchar(8000),
+WorkVerify nchar(10) not null,
+UserName nvarchar(50) NOT NULL,
+ActivityId int,
+Recommend nchar(2) not null,
+RecommendTime datetime,
+FOREIGN KEY(ActivityId) REFERENCES Activity(ActivityID),
+FOREIGN KEY(USERNAME) REFERENCES UserInfo(USERNAME)
+);
+
+CREATE TABLE image
+(
+ImgID int Primary key auto_increment,
+ImgUrl nvarchar(50) not null,
+ImgText nvarchar(50) not null,
+ImgLink nvarchar(100) not null,
+ImgAlt nvarchar(50) not null
+);
+insert into UserInfo(UserName,Password,Type,QQ,Email) 
+values
+('Admin','abc.123','管理员','123','12345@qq.com'),
+('tom','tom','管理员','456','456@qq.com'),
+('andy','andy','会员','789','789@qq.com'),
+('zhang','1234','会员','1234','1234@qq.com'),
+('zen','123456','会员','123456','123456@qq.com'),
+('li','12345','会员','12345','12345@qq.com');
+INSERT INTO Activity 
+values
+(null,'公益广告大赛','2020-06-20','img/Activity/4.jpg','公益广告大赛','公益广告大赛','待审核','未结束','Admin','否','2019-8-1'),
+(null,'酒水创意包装设计大赛','2020-06-20','img/Activity/5.jpg','酒水创意包装设计大赛','酒水创意包装设计大赛','待审核','未结束','Admin','否','2019-8-1'),
+(null,'工业设计大赛','2020-06-20','img/Activity/6.jpg','工业设计大赛','工业设计大赛','待审核','未结束','Admin','否','2019-8-1');
+
+
+insert into WorkInfo
+values
+(null,'扬名立万','img/Work/1.png','2019-06-18','img/Work/i1.jpg','审核通过','Admin',1,'否',null),
+(null,'门锁','img/Work/2.png','2019-06-13','img/Work/i2.jpg','审核通过','andy',1,'是','2014-06-17'),
+(null,'长津湖','img/Work/3.png','2019-06-13','img/Work/i3.jpg','审核通过','Admin',1,'是','2014-06-17'),
+(null,'梅艳芳','img/Work/4.png','2019-06-13','img/Work/i4.jpg','审核通过','andy',1,'否',NULL),
+(null,'入殓师','img/Work/5.png','2019-06-13','img/Work/i5.jpg','审核通过','andy',1,'否',NULL),
+(null,'我和我的父辈','img/Work/6.png','2019-06-13','img/Work/i6.jpg','审核通过','Admin',1,'否',NULL),
+(null,'铁道英雄','img/Work/7.png','2019-06-13','img/Work/i7.jpg','审核通过','Admin',1,'是','2015-06-17'),
+(null,'古董局中局','img/Work/8.png','2019-06-13','img/Work/i8.jpg','审核通过','Admin',1,'是','2015-06-17'),
+(NULL,'无尽攀登','img/Work/9.png','2019-06-13','img/Work/i9.jpg','审核通过','Admin',1,'是','2015-06-17'),
+(null,'不老奇事','img/Work/10.png','2019-06-13','img/Work/i10.jpg','审核通过','andy',1,'否',NULL),
+(null,'乌海','img/Work/11.png','2019-06-13','img/Work/i11.jpg','待审核','andy',1,'否',NULL),
+(null,'只要你过得比我好','img/Work/12.png','2019-06-13','img/Work/i12.jpg','审核通过','Admin',1,'是','2015-06-17')
+;
+
+
+
